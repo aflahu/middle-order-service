@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderRepository orderRepository;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Order>> getOrders(){
+        List<Order> ResGetOrders = orderRepository.findAll().stream().filters(order -> order.getQuantity() > 1).toList();
     }
 
     @PostMapping
